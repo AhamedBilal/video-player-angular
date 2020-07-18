@@ -1,0 +1,44 @@
+<div style="width: 500px">
+  <div #player id="videoContainer">
+    <video #video id="video" controls preload="metadata" poster="../../assets/1086748.png"
+           (timeupdate)="onTimeUpdate($event)"
+           (progress)="onProgress($event)"
+           (seeked)="onSeeked($event)"
+           (seeking)="onSeeking($event)"
+    >
+      <source
+        src="../../assets/Big%20Buck%20Bunny%2060fps%204K%20-%20Official%20Blender%20Foundation%20Short%20Film.mp4"
+        type="video/mp4">
+    </video>
+
+
+    <div class="controls">
+      <div class="tooltip">
+        <div class="progress">
+          <div class="progress-bar" [style.width]="buffered"></div>
+          <div class="progress-bar" style="background-color: red" [style.width]="currentTime">
+            <div class="dot"></div>
+          </div>
+          <div class="progress-bar" style="background-color: transparent; width: 100%"
+               (click)="changeProgress($event)" (mousemove)="onMouseMove($event, tooltip)"></div>
+        </div>
+        <span class="tooltiptext" #tooltip>{{hoveredTime | mediaLength}}</span>
+      </div>
+      <div class="btn-container">
+        <div>
+          <i class="fas" [ngClass]="{'fa-play': video.paused||video.ended, 'fa-pause': !(video.paused||video.ended)}"
+             (click)="togglePlay()"></i>
+        </div>
+        <div>
+          <i class="fas" [ngClass]="{'fa-expand': !isFullScreen(), 'fa-compress': isFullScreen()}"
+             (click)="toggleFullScreen()"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div style="width: 500px">-->
+<!--  <video controls preload="metadata" poster="../../assets/1086748.png">-->
+<!--    <source src="../../assets/Big%20Buck%20Bunny%2060fps%204K%20-%20Official%20Blender%20Foundation%20Short%20Film.mp4" type="video/mp4">-->
+<!--  </video>-->
+<!--</div>-->

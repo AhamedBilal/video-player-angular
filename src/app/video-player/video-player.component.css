@@ -1,0 +1,148 @@
+#videoContainer {
+  width:100%;
+  background-color:#666;
+  position: relative;
+  overflow: hidden;
+}
+video {
+  width:100%;
+  display: block;
+}
+
+.controls {
+  width:100%;
+  padding: 20px 0;
+  position:absolute;
+  bottom: 0;
+  background: rgb(0,0,0);
+  background: -moz-linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+  background: -webkit-linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#000000",GradientType=1);
+}
+.controls .progress::-moz-progress-bar {
+  background-color:#0095dd;
+}
+/* Chrome requires its own rule for this, otherwise it ignores it */
+.controls .progress::-webkit-progress-value {
+  background-color:#0095dd;
+}
+
+/* fullscreen */
+html:-ms-fullscreen {
+  width:100%;
+}
+:-webkit-full-screen {
+  background-color:transparent;
+}
+video:-webkit-full-screen + .controls {
+  background:#ccc; /* required for Chrome which doesn't heed the transparent value set above */
+}
+video:-webkit-full-screen + .controls progress {
+  margin-top:0.5rem;
+}
+
+/* hide controls on fullscreen with WebKit */
+#videoContainer video::-webkit-media-controls {
+  display:none !important;
+}
+div[data-fullscreen=true] {
+  max-width:100%;
+  width:100%;
+  margin:0;
+  padding:0;
+  max-height:100%;
+}
+div[data-fullscreen=true] video {
+  height:auto;
+}
+div[data-fullscreen=true] .controls {
+  position:absolute;
+  bottom:0;
+  width:100%;
+  background-color: #0095dd;
+  z-index:2147483647;
+}
+
+.progress {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 0.25rem;
+  height: 6px;
+  transform: scaleY(0.7);
+  transition: all 0.05s ease-in-out;
+  cursor: pointer;
+}
+
+.progress-bar {
+  border-radius: 50rem;
+  position: absolute;
+  height: inherit;
+  width: 0;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  background-color: rgba(255,255,255,0.5);
+  transition: width 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-bar {
+    transition: none;
+  }
+}
+
+.dot {
+  height: 15px;
+  width: 15px;
+  background-color: red;
+  position: absolute;
+  border-radius: 50%;
+  right: -5px;
+  visibility: hidden;
+}
+
+.progress:hover .dot {
+  visibility: visible;
+}
+.progress:hover{
+  transform: scaleY(1);
+}
+
+.btn-container {
+  margin: 1% 5%;
+  display: flex;
+  justify-content: space-between;
+}
+.btn-container  i {
+  color: white;
+  cursor: pointer;
+}
+
+/* Tooltip text */
+.tooltiptext {
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 10px;
+  position: absolute;
+  z-index: 1;
+  font-size: 12px;
+  font-weight: normal;
+  border-radius: 5px;
+  left: 0;
+  top: -35px;
+  opacity: 0;
+  transition: opacity 0.05s ease-in-out;
+}
+.tooltip {
+  margin: 0 3%;
+  position: relative;
+}
+
+.tooltip:hover .tooltiptext{
+  opacity: 1;
+}
