@@ -9,10 +9,11 @@ export class AppComponent {
   title = 'video-player';
   options = {
     autoplay: false,
+    fluid: true,
     controls: true,
     response: true,
     muted: false,
     responsive: true,
-    sources: [{src: 'https://multiplatform-f.akamaihd.net/i/multi/april11/sintel/sintel-hd_,512x288_450_b,640x360_700_b,768x432_1000_b,1024x576_1400_m,.mp4.csmil/master.m3u8', type: 'application/x-mpegURL'}]
+    sources: [{src: 'http://puremaths.lk:1935/vod/smil:b.smil/playlist.m3u8', type: 'application/x-mpegURL'}]
   };
 }
