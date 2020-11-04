@@ -31,7 +31,6 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // instantiate Video.js
     this.player = videojs(this.target.nativeElement, this.options, function onPlayerReady() {
       console.log('onPlayerReady', this);
       // tslint:disable-next-line:one-variable-per-declaration prefer-const
@@ -41,7 +40,6 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // destroy player
     if (this.player) {
       this.player.dispose();
     }
