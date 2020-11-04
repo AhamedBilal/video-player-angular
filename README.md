@@ -2,9 +2,9 @@
 
 #### HeadingThis project contains Plyr, Videojs and my own custom HTML5 player integrations.
 
-#####Reference
-> [Plyr](https://plyr.io/)
->[VideoJS](https://videojs.com/)
+>References
+>- [Plyr](https://plyr.io/)
+>- [VideoJS](https://videojs.com/)
 
 # VideoJS + HLS
 
