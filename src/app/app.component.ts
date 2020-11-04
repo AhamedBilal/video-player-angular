@@ -16,4 +16,5 @@ export class AppComponent {
     responsive: true,
     sources: [{src: 'http://puremaths.lk:1935/vod/smil:b.smil/playlist.m3u8', type: 'application/x-mpegURL'}]
   };
+  play = true;
 }

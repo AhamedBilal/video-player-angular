@@ -1,3 +1,7 @@
 <div style="width: 80%; height: 400px">
-  <app-vjs-player [options]="options"></app-vjs-player>
+  <app-vjs-player *ngIf="play" [options]="options"></app-vjs-player>
 </div>
+<div style="position: absolute; top: 0; right: 0">
+  <button (click)="play=!play">stop</button>
+</div>
+
