@@ -17,8 +17,12 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
 
   @Input() options: {
     fluid: boolean,
+    muted: boolean,
+    responsive: boolean,
     aspectRatio: string,
     autoplay: boolean,
+    width: number|string,
+    height: string|number,
     sources: {
       src: string,
       type: string,
@@ -35,7 +39,9 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
       console.log('onPlayerReady', this);
       // tslint:disable-next-line:one-variable-per-declaration prefer-const
       let myPlayer = this, id = myPlayer.id();
-      myPlayer.hlsQualitySelector();
+      myPlayer.hlsQualitySelector({
+        displayCurrentQuality: true,
+      });
     });
   }
 
