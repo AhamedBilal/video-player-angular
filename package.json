@@ -19,8 +19,12 @@
     "@angular/platform-browser": "~9.1.12",
     "@angular/platform-browser-dynamic": "~9.1.12",
     "@angular/router": "~9.1.12",
+    "plyr": "^3.6.2",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
+    "video.js": "^7.10.1",
+    "videojs-contrib-quality-levels": "^2.0.9",
+    "videojs-hls-quality-selector": "^1.1.4",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

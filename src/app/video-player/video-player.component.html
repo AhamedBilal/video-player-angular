@@ -1,6 +1,6 @@
 <div style="width: 500px">
   <div #player id="videoContainer">
-    <video #video id="video" controls preload="metadata" poster="../../assets/1086748.png"
+    <video #video id="video" controls autoplay muted preload="metadata" poster="../../assets/1086748.png"
            (timeupdate)="onTimeUpdate($event)"
            (progress)="onProgress($event)"
            (seeked)="onSeeked($event)"
