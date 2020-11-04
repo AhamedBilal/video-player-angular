@@ -10,11 +10,15 @@
 
 #### NPMs
 
->  npm i video.js
-
->  npm i videojs-hls-quality-selector
-
->  npm i videojs-contrib-quality-levels
+``` bash
+npm i video.js
+```
+``` bash
+npm i videojs-hls-quality-selector
+```
+``` bash
+npm i videojs-contrib-quality-levels
+```
 
 
 # Plyr
