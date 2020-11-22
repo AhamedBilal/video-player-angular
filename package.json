@@ -26,6 +26,7 @@
     "video.js": "^7.10.1",
     "videojs-contrib-quality-levels": "^2.0.9",
     "videojs-hls-quality-selector": "^1.1.4",
+    "videojs-replay": "^1.1.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

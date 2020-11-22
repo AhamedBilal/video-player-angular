@@ -26,3 +26,7 @@ a:hover, a:focus {
   color:#2255aa;
   text-decoration:underline;
 }
+.replay-button {
+  cursor: pointer;
+  font-size: 1.3em !important;
+}

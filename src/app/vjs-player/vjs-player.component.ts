@@ -35,6 +35,28 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const src = this.options.sources[0].src;
+    const Button = videojs.getComponent('Button');
+    const replayButton = videojs.extend(Button, {
+      constructor: function(player, options) {
+        console.log(player);
+        Button.apply(this, arguments);
+        this.controlText('Replay');
+        /* initialize your button */
+      },
+      handleClick: function() {
+        console.log('replay');
+        this.player_.reset();
+        this.player_.src(src);
+        this.player_.play();
+      },
+      buildCSSClass: function() {
+        return 'vjs-icon-replay replay-button';
+      }
+    });
+    videojs.registerComponent('ReplayButton', replayButton);
+
+   // replayBotton.addClass("html-classname");
     this.player = videojs(this.target.nativeElement, this.options, function onPlayerReady() {
       console.log('onPlayerReady', this);
       // tslint:disable-next-line:one-variable-per-declaration prefer-const
@@ -43,6 +65,7 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
         displayCurrentQuality: true,
       });
     });
+    this.player.getChild('controlBar').addChild('ReplayButton', {}, 1);
   }
 
   ngOnDestroy(): void {
