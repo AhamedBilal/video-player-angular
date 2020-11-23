@@ -49,6 +49,9 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
         this.player_.reset();
         this.player_.src(src);
         this.player_.play();
+        if (this.player_.currentTime() > 5 * 60) {
+          // api call
+        }
       },
       buildCSSClass: function() {
         return 'vjs-icon-replay replay-button';
