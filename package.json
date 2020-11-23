@@ -23,7 +23,7 @@
     "plyr": "^3.6.2",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
-    "video.js": "^7.10.1",
+    "video.js": "^7.10.2",
     "videojs-contrib-quality-levels": "^2.0.9",
     "videojs-hls-quality-selector": "^1.1.4",
     "videojs-replay": "^1.1.0",
