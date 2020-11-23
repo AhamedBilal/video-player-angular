@@ -77,9 +77,7 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
     this.player.on('timeupdate', () => {
       if (this.player.currentTime() > 5 * 60 && this.isFirst) {
         this.isFirst = false;
-        this.player.on('playing', () => {
-          this.played.emit(this.player.currentTime());
-        });
+        this.played.emit(this.player.currentTime());
       }
     });
     this.player.on('error', (ev) => {
