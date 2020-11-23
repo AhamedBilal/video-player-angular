@@ -76,9 +76,9 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
     this.player.getChild('controlBar').addChild('ReplayButton', {}, 1);
     this.player.on('timeupdate', () => {
       if (this.player.currentTime() > 5 * 60 && this.isFirst) {
+        this.isFirst = false;
         this.player.on('playing', () => {
           this.played.emit(this.player.currentTime());
-          this.isFirst = false;
         });
       }
     });
