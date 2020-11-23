@@ -27,6 +27,11 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
       type: string,
       poster: string,
     }[],
+    html5: {
+      vhs: {
+        overrideNative: boolean
+      }
+    }
   };
   player: videojs.Player;
   isFirst = true;
@@ -39,6 +44,7 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // console.log(this.options);
     const src = this.options.sources[0].src;
     const Button = videojs.getComponent('Button');
     const replayButton = videojs.extend(Button, {
