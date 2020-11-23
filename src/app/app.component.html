@@ -1,5 +1,5 @@
 <div style="width: 80%; height: 400px">
-  <app-vjs-player *ngIf="play" [options]="options"></app-vjs-player>
+  <app-vjs-player *ngIf="play" [options]="options" (replayed)="onReplay($event)" (played)="onPlayed($event)"></app-vjs-player>
 </div>
 <div style="position: absolute; top: 0; right: 0">
   <button (click)="play=!play">stop</button>

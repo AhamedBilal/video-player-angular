@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import videojs from 'video.js';
 
 declare var require: any;
@@ -14,15 +14,14 @@ require('videojs-hls-quality-selector');
 export class VjsPlayerComponent implements OnInit, OnDestroy {
 
   @ViewChild('target', {static: true}) target: ElementRef;
-
   @Input() options: {
     fluid: boolean,
     muted: boolean,
     responsive: boolean,
     aspectRatio: string,
     autoplay: boolean,
-    width: number|string,
-    height: string|number,
+    width: number | string,
+    height: string | number,
     sources: {
       src: string,
       type: string,
@@ -30,6 +29,11 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
     }[],
   };
   player: videojs.Player;
+  isFirst = true;
+
+  @Output() replayed = new EventEmitter();
+  @Output() played = new EventEmitter();
+  @Output() errorOccurred = new EventEmitter();
 
   constructor(private elementRef: ElementRef) {
   }
@@ -38,19 +42,20 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
     const src = this.options.sources[0].src;
     const Button = videojs.getComponent('Button');
     const replayButton = videojs.extend(Button, {
-      constructor: function(player, options) {
-        console.log(player);
+      constructor: function() {
         Button.apply(this, arguments);
         this.controlText('Replay');
         /* initialize your button */
       },
-      handleClick: function() {
+      handleClick: () => {
+        const time = this.player.currentTime();
         console.log('replay');
-        this.player_.reset();
-        this.player_.src(src);
-        this.player_.play();
-        if (this.player_.currentTime() > 5 * 60) {
-          // api call
+        this.player.reset();
+        this.player.src(src);
+        this.player.play();
+        this.isFirst = true;
+        if (time > 5 * 60) {
+          this.replayed.emit(time);
         }
       },
       buildCSSClass: function() {
@@ -59,7 +64,7 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
     });
     videojs.registerComponent('ReplayButton', replayButton);
 
-   // replayBotton.addClass("html-classname");
+    // replayBotton.addClass("html-classname");
     this.player = videojs(this.target.nativeElement, this.options, function onPlayerReady() {
       console.log('onPlayerReady', this);
       // tslint:disable-next-line:one-variable-per-declaration prefer-const
@@ -69,6 +74,17 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
       });
     });
     this.player.getChild('controlBar').addChild('ReplayButton', {}, 1);
+    this.player.on('timeupdate', () => {
+      if (this.player.currentTime() > 5 * 60 && this.isFirst) {
+        this.player.on('playing', () => {
+          this.played.emit(this.player.currentTime());
+          this.isFirst = false;
+        });
+      }
+    });
+    this.player.on('error', (ev) => {
+      this.errorOccurred.emit(ev);
+    });
   }
 
   ngOnDestroy(): void {

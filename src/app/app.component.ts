@@ -17,4 +17,12 @@ export class AppComponent {
     sources: [{src: 'http://puremaths.lk:1935/vod/smil:b.smil/playlist.m3u8', type: 'application/x-mpegURL'}]
   };
   play = true;
+
+  onReplay(ev) {
+    console.log(ev);
+  }
+
+  onPlayed(ev) {
+    console.log(ev);
+  }
 }
