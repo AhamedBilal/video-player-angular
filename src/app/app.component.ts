@@ -14,7 +14,7 @@ export class AppComponent {
     response: true,
     muted: false,
     responsive: true,
-    sources: [{src: 'http://puremaths.lk:1935/vod/smil:b.smil/playlist.m3u8', type: 'application/x-mpegURL'}],
+    sources: [{src: 'http://puremaths.lk:1935/vod/smil:1605875686764video.smil/playlist.m3u8', type: 'application/x-mpegURL'}],
     html5: {
       vhs: {
         overrideNative: true
