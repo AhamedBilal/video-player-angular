@@ -1,7 +1,15 @@
-<div style="width: 80%; height: 400px">
-  <app-vjs-player *ngIf="play" [options]="options" (replayed)="onReplay($event)" (played)="onPlayed($event)"></app-vjs-player>
-</div>
-<div style="position: absolute; top: 0; right: 0">
-  <button (click)="play=!play">stop</button>
+<div class="container">
+  <h1>test1</h1>
+  <div style="width: 100%;">
+    <app-plyr-manual [link]="link"></app-plyr-manual>
+  </div>
+  <h1>test2</h1>
+  <div style="width: 100%;">
+    <app-plyr-manual [link]="link2"></app-plyr-manual>
+  </div>
+  <h1>test3</h1>
+  <div style="width: 100%;">
+    <app-hls-html5></app-hls-html5>
+  </div>
 </div>
 

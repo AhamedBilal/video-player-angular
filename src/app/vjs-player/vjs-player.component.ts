@@ -14,25 +14,7 @@ require('videojs-hls-quality-selector');
 export class VjsPlayerComponent implements OnInit, OnDestroy {
 
   @ViewChild('target', {static: true}) target: ElementRef;
-  @Input() options: {
-    fluid: boolean,
-    muted: boolean,
-    responsive: boolean,
-    aspectRatio: string,
-    autoplay: boolean,
-    width: number | string,
-    height: string | number,
-    sources: {
-      src: string,
-      type: string,
-      poster: string,
-    }[],
-    html5: {
-      vhs: {
-        overrideNative: boolean
-      }
-    }
-  };
+  @Input() options: any;
   player: videojs.Player;
   isFirst = true;
 
