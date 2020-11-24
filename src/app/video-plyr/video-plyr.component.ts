@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 // @ts-ignore
 import Plyr from 'plyr';
 import Hls from 'hls.js';
@@ -9,14 +9,17 @@ import Hls from 'hls.js';
   styleUrls: ['./video-plyr.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class VideoPlyrComponent implements OnInit {
+export class VideoPlyrComponent implements OnInit, OnDestroy {
 
   @ViewChild('target', {static: true}) target: ElementRef;
 
   @Input() link: string;
   @Output() played = new EventEmitter();
+  isFirst = true;
+  player;
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(private elementRef: ElementRef) {
+  }
 
   ngOnInit(): void {
     const video = this.target.nativeElement;
@@ -25,7 +28,7 @@ export class VideoPlyrComponent implements OnInit {
       const hls = new Hls();
       hls.loadSource(this.link);
       // @ts-ignore
-      hls.on(Hls.Events.MANIFEST_PARSED,  (event, data) => {
+      hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
         const availableQualities = hls.levels.map((l) => l.height);
         defaultOptions.quality = {
           default: availableQualities[0],
@@ -33,13 +36,19 @@ export class VideoPlyrComponent implements OnInit {
           forced: true,
           onChange: (e) => updateQuality(e),
         };
-        const player = new Plyr(video, defaultOptions);
+        this.player = new Plyr(video, defaultOptions);
+        this.player.on('timeupdate', () => {
+          if (this.player.currentTime > 5 * 60 && this.isFirst && this.player.playing) {
+            console.log(this.player.playing, this.player.currentTime);
+            this.played.emit(this.player.currentTime);
+            this.isFirst = false;
+          }
+        });
       });
       hls.attachMedia(video);
       // @ts-ignore
       window.hls = hls;
     } else {
-      // default options with no quality update in case Hls is not supported
       const player = new Plyr(video, defaultOptions);
     }
 
@@ -53,6 +62,10 @@ export class VideoPlyrComponent implements OnInit {
         }
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.player.destroy();
   }
 
 }
