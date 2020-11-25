@@ -45,6 +45,8 @@ export class VideoPlyrComponent implements OnInit, OnDestroy {
             this.isFirst = false;
           }
         });
+        this.player.on('enterfullscreen', () => this.onResize());
+        this.player.on('exitfullscreen', () => this.onResize());
       });
       hls.attachMedia(video);
       // @ts-ignore
@@ -70,11 +72,11 @@ export class VideoPlyrComponent implements OnInit, OnDestroy {
   }
 
   onResize() {
-    // @ts-ignore
-    const h = this.target.nativeElement.offsetHeight;
-    console.log(h);
-    const menus = document.querySelectorAll('.plyr__menu__container [role=menu]');
-    // @ts-ignore
-    menus.forEach(item => item.style.maxHeight = h * 0.5 + 'px');
+    if (this.target.nativeElement){
+      const h = this.target.nativeElement.offsetHeight;
+      const menus = document.querySelectorAll('.plyr__menu__container [role=menu]');
+      // @ts-ignore
+      menus.forEach(item => item.style.maxHeight = h * 0.5 + 'px');
+    }
   }
 }
