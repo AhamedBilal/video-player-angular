@@ -37,6 +37,7 @@ export class VideoPlyrComponent implements OnInit, OnDestroy {
           onChange: (e) => updateQuality(e),
         };
         this.player = new Plyr(video, defaultOptions);
+        this.onResize();
         this.player.on('timeupdate', () => {
           if (this.player.currentTime > 5 * 60 && this.isFirst && this.player.playing) {
             console.log(this.player.playing, this.player.currentTime);
@@ -68,4 +69,12 @@ export class VideoPlyrComponent implements OnInit, OnDestroy {
     this.player.destroy();
   }
 
+  onResize() {
+    // @ts-ignore
+    const h = this.target.nativeElement.offsetHeight;
+    console.log(h);
+    const menus = document.querySelectorAll('.plyr__menu__container [role=menu]');
+    // @ts-ignore
+    menus.forEach(item => item.style.maxHeight = h * 0.5 + 'px');
+  }
 }

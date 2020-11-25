@@ -26,8 +26,9 @@ export class AppComponent {
   };
   play = true;
 
-  link = 'http://puremaths.lk:1935/vod/smil:1605879914668video.smil/playlist.m3u8';
-  link2 = 'http://puremaths.lk:1935/vod/mp4:1605866690245video.mp4/playlist.m3u8';
+  link = 'http://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/.m3u8';
+  // link = 'http://puremaths.lk:1935/vod/smil:1605879914668video.smil/playlist.m3u8';
+  // link2 = 'http://puremaths.lk:1935/vod/mp4:1605866690245video.mp4/playlist.m3u8';
 
   constructor() {
     console.log('new update');
