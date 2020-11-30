@@ -27,8 +27,9 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
 
   constructor(private elementRef: ElementRef, private service: VideoPlayerService) {
     this.subscription = service.vjsResetEvent().subscribe(() => {
-      this.target.nativeElement.load();
-      this.target.nativeElement.pause();
+      this.player.reset();
+      this.player.src(this.options.sources[0].src);
+      this.player.pause();
     });
   }
 
