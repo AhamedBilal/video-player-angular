@@ -24,8 +24,7 @@ export class VideoPlyrComponent implements OnInit, OnDestroy {
 
   constructor(private elementRef: ElementRef, private service: VideoPlayerService) {
     this.subscription = service.plyrResetEvent().subscribe(value => {
-      this.target.nativeElement.load();
-      this.target.nativeElement.pause();
+      this.player.stop();
     });
   }
 
