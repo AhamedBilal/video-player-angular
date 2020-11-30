@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {VideoPlayerService} from './video-player.service';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +31,7 @@ export class AppComponent {
   // link = 'http://puremaths.lk:1935/vod/smil:1605879914668video.smil/playlist.m3u8';
   // link2 = 'http://puremaths.lk:1935/vod/mp4:1605866690245video.mp4/playlist.m3u8';
 
-  constructor() {
+  constructor(private service: VideoPlayerService) {
     console.log('new update');
   }
   onReplay(ev) {
@@ -39,5 +40,13 @@ export class AppComponent {
 
   onPlayed(ev) {
     console.log(ev);
+  }
+
+  reloadVjs() {
+    this.service.resetVJS();
+  }
+
+  reloadPlyr() {
+    this.service.resetPlyr();
   }
 }
