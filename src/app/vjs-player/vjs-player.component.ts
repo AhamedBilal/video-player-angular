@@ -1,5 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import videojs from 'video.js';
+import {Subscription} from 'rxjs';
+import {VideoPlayerService} from '../video-player.service';
 
 declare var require: any;
 require('videojs-contrib-quality-levels');
@@ -21,8 +23,13 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
   @Output() replayed = new EventEmitter();
   @Output() played = new EventEmitter();
   @Output() errorOccurred = new EventEmitter();
+  private subscription: Subscription;
 
-  constructor(private elementRef: ElementRef) {
+  constructor(private elementRef: ElementRef, private service: VideoPlayerService) {
+    this.subscription = service.vjsResetEvent().subscribe(() => {
+      this.target.nativeElement.load();
+      this.target.nativeElement.pause();
+    });
   }
 
   ngOnInit(): void {
@@ -77,6 +84,7 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
     if (this.player) {
       this.player.dispose();
     }
+    this.subscription.unsubscribe();
   }
 
 }

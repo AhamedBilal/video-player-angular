@@ -2,6 +2,8 @@ import {Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, V
 // @ts-ignore
 import Plyr from 'plyr';
 import Hls from 'hls.js';
+import {VideoPlayerService} from '../video-player.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-video-plyr',
@@ -18,8 +20,13 @@ export class VideoPlyrComponent implements OnInit, OnDestroy {
   isFirst = true;
   player;
   errors: string = null;
+  private subscription: Subscription;
 
-  constructor(private elementRef: ElementRef) {
+  constructor(private elementRef: ElementRef, private service: VideoPlayerService) {
+    this.subscription = service.plyrResetEvent().subscribe(value => {
+      this.target.nativeElement.load();
+      this.target.nativeElement.pause();
+    });
   }
 
   ngOnInit(): void {
@@ -96,10 +103,11 @@ export class VideoPlyrComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.player.destroy();
+    this.subscription.unsubscribe();
   }
 
   onResize() {
-    if (this.target.nativeElement){
+    if (this.target.nativeElement) {
       const h = this.target.nativeElement.offsetHeight;
       const menus = document.querySelectorAll('.plyr__menu__container [role=menu]');
       // @ts-ignore
