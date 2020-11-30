@@ -15,7 +15,7 @@ export class AppComponent {
     muted: false,
     preload: 'auto',
     responsive: true,
-    sources: [{src: 'http://puremaths.lk:1935/vod/smil:1605879914668video.smil/playlist.m3u8', type: 'application/vnd.apple.mpegurl\''}],
+    sources: [{src: 'http://puremaths.lk:1935/vod/smil:1605866690245video.smil/playlist.m3u8', type: 'application/vnd.apple.mpegurl\''}],
     html5: {
       hls: {
         overrideNative: true
@@ -26,7 +26,7 @@ export class AppComponent {
   };
   play = true;
 
-  link = 'http://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/.m3u8';
+  link = 'http://puremaths.lk:1935/vod/smil:1605866690245video.smil/playlist.m3u8';
   // link = 'http://puremaths.lk:1935/vod/smil:1605879914668video.smil/playlist.m3u8';
   // link2 = 'http://puremaths.lk:1935/vod/mp4:1605866690245video.mp4/playlist.m3u8';
 

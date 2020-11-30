@@ -1,1 +1,4 @@
 <video #target playsinline controls style="display: block; width: 100%" (resize)="onResize()"></video>
+<div *ngIf="errors" class="alert alert-danger" role="alert">
+  {{errors}}
+</div>

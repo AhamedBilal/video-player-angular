@@ -17,6 +17,7 @@ export class VideoPlyrComponent implements OnInit, OnDestroy {
   @Output() played = new EventEmitter();
   isFirst = true;
   player;
+  errors: string = null;
 
   constructor(private elementRef: ElementRef) {
   }
@@ -26,33 +27,59 @@ export class VideoPlyrComponent implements OnInit, OnDestroy {
     const defaultOptions: any = {};
     if (Hls.isSupported()) {
       const hls = new Hls();
-      hls.loadSource(this.link);
-      // @ts-ignore
-      hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
-        const availableQualities = hls.levels.map((l) => l.height);
-        defaultOptions.quality = {
-          default: availableQualities[0],
-          options: availableQualities,
-          forced: true,
-          onChange: (e) => updateQuality(e),
-        };
-        this.player = new Plyr(video, defaultOptions);
-        this.onResize();
-        this.player.on('timeupdate', () => {
-          if (this.player.currentTime > 5 * 60 && this.isFirst && this.player.playing) {
-            console.log(this.player.playing, this.player.currentTime);
-            this.played.emit(this.player.currentTime);
-            this.isFirst = false;
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+        hls.loadSource(this.link);
+        // @ts-ignore
+        hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
+          const availableQualities = hls.levels.map((l) => l.height);
+          defaultOptions.quality = {
+            default: availableQualities[0],
+            options: availableQualities,
+            forced: true,
+            onChange: (e) => updateQuality(e),
+          };
+          this.player = new Plyr(video, defaultOptions);
+          this.onResize();
+          this.player.on('timeupdate', () => {
+            if (this.player.currentTime > 5 * 60 && this.isFirst && this.player.playing) {
+              console.log(this.player.playing, this.player.currentTime);
+              this.played.emit(this.player.currentTime);
+              this.isFirst = false;
+            }
+          });
+          this.player.on('enterfullscreen', () => this.onResize());
+          this.player.on('exitfullscreen', () => this.onResize());
+        });
+        hls.on(Hls.Events.ERROR, (event, data) => {
+          if (data.fatal) {
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                // try to recover network error
+                console.log('fatal network error encountered, try to recover');
+                this.errors = 'fatal network error encountered, try to recover';
+                hls.startLoad();
+                break;
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                console.log('fatal media error encountered, try to recover');
+                this.errors = 'fatal media error encountered, try to recover';
+                hls.recoverMediaError();
+                break;
+              default:
+                // cannot recover
+                this.errors = `can't be recovered`;
+                hls.destroy();
+                break;
+            }
           }
         });
-        this.player.on('enterfullscreen', () => this.onResize());
-        this.player.on('exitfullscreen', () => this.onResize());
       });
-      hls.attachMedia(video);
       // @ts-ignore
       window.hls = hls;
     } else {
       const player = new Plyr(video, defaultOptions);
+      this.errors = `no hls support please change your browser`;
+
     }
 
     function updateQuality(newQuality) {
