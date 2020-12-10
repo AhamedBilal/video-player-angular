@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
 @Injectable({
@@ -8,16 +8,29 @@ export class VideoPlayerService {
 
   private vjsReset = new Subject<any>();
   private plyrReset = new Subject<any>();
+  private jwpReset = new Subject<any>();
+
   resetVJS() {
     this.vjsReset.next();
   }
+
   resetPlyr() {
     this.plyrReset.next();
   }
-  vjsResetEvent(): Observable<any>{
+
+  resetJWP() {
+    this.jwpReset.next();
+  }
+
+  vjsResetEvent(): Observable<any> {
     return this.vjsReset.asObservable();
   }
-  plyrResetEvent(): Observable<any>{
+
+  plyrResetEvent(): Observable<any> {
     return this.plyrReset.asObservable();
+  }
+
+  jwpResetEvent(): Observable<any> {
+    return this.jwpReset.asObservable();
   }
 }

@@ -1,18 +1,61 @@
-<div class="container">
-  <button (click)="reloadVjs()">reload vjs</button>
-  <button (click)="reloadPlyr()">reload plyr</button>
-  <h1>Test</h1>
-  <div style="width: 100%;">
-    <app-video-plyr [link]="link"></app-video-plyr>
+<div class="container text-center">
+  <button class="btn btn-success m-3" (click)="isSG=!isSG">Switch Server</button>
+  <div *ngIf="isSG">
+    <h1> Singapore Server</h1>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="p1-tab" data-toggle="tab" href="#p1" role="tab" aria-controls="p1"
+           aria-selected="true" (click)="player=1">Player 01</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="p2-tab" data-toggle="tab" href="#p2" role="tab" aria-controls="p2"
+           aria-selected="false" (click)="player=2">Player 02</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="p3-tab" data-toggle="tab" href="#p3" role="tab" aria-controls="p3"
+           aria-selected="false" (click)="player=3">Player 03</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="p1" role="tabpanel" aria-labelledby="p1-tab">
+        <app-video-plyr *ngIf="player==1" [link]="linkSG"></app-video-plyr>
+      </div>
+      <div class="tab-pane fade" id="p2" role="tabpanel" aria-labelledby="p2-tab">
+        <app-vjs-player *ngIf="player==2" [options]="optionsSG"></app-vjs-player>
+      </div>
+      <div class="tab-pane fade" id="p3" role="tabpanel" aria-labelledby="p3-tab">
+        <app-jwplayer *ngIf="player==3" [link]="linkSG"></app-jwplayer>
+      </div>
+    </div>
   </div>
-  <h1>test2</h1>
-  <div style="width: 100%;">
-    <app-vjs-player [options]="options"></app-vjs-player>
+  <div *ngIf="!isSG">
+    <h1> US Server</h1>
+    <ul class="nav nav-tabs" id="myTab0" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="p1-tab0" data-toggle="tab" href="#p10" role="tab" aria-controls="p10"
+           aria-selected="true" (click)="playerr=1">Player 01</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="p2-tab0" data-toggle="tab" href="#p20" role="tab" aria-controls="p20"
+           aria-selected="false" (click)="playerr=2">Player 02</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="p3-tab0" data-toggle="tab" href="#p30" role="tab" aria-controls="p30"
+           aria-selected="false" (click)="playerr=3">Player 03</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent0">
+      <div class="tab-pane fade show active" id="p10" role="tabpanel" aria-labelledby="p1-tab0">
+        <app-video-plyr *ngIf="playerr==1" [link]="linkUS"></app-video-plyr>
+      </div>
+      <div class="tab-pane fade" id="p20" role="tabpanel" aria-labelledby="p2-tab0">
+        <app-vjs-player *ngIf="playerr==2" [options]="optionsUS"></app-vjs-player>
+      </div>
+      <div class="tab-pane fade" id="p30" role="tabpanel" aria-labelledby="p3-tab0">
+        <app-jwplayer *ngIf="playerr==3" [link]="linkUS"></app-jwplayer>
+      </div>
+    </div>
   </div>
-<!--  <h1>test3</h1>-->
-<!--  <div style="width: 100%;">-->
-<!--    <app-hls-html5></app-hls-html5>-->
-<!--  </div>-->
 
 </div>
 

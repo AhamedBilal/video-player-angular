@@ -1,14 +1,21 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {VideoPlayerService} from './video-player.service';
+import {DomSanitizer} from '@angular/platform-browser';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+
+// @ts-ignore
+import Plyr from 'plyr';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'video-player';
-  options = {
+  src;
+  optionsSG = {
     autoplay: false,
     fluid: true,
     controls: true,
@@ -16,24 +23,29 @@ export class AppComponent {
     muted: false,
     preload: 'auto',
     responsive: true,
-    sources: [{src: 'http://puremaths.lk:1935/vod/smil:1605866690245video.smil/playlist.m3u8', type: 'application/vnd.apple.mpegurl\''}],
-    html5: {
-      hls: {
-        overrideNative: true
-      },
-      nativeAudioTracks: false,
-      nativeVideoTracks: false
-    }
+    sources: [{src: 'http://54.151.226.134:1935/vod/smil:1606441724762video.smil/playlist.m3u8', type: 'application/vnd.apple.mpegurl\''}]
+  };
+  optionsUS = {
+    autoplay: false,
+    fluid: true,
+    controls: true,
+    response: true,
+    muted: false,
+    preload: 'auto',
+    responsive: true,
+    sources: [{src: 'http://puremaths.lk:1935/vod/smil:1606441724762video.smil/playlist.m3u8', type: 'application/vnd.apple.mpegurl\''}]
   };
   play = true;
+  linkSG = 'http://54.151.226.134:1935/vod/smil:1606441724762video.smil/playlist.m3u8';
+  isSG = true;
+  linkUS = 'http://puremaths.lk:1935/vod/smil:1606441724762video.smil/playlist.m3u8';
+  player = 1;
+  playerr = 1;
 
-  link = 'http://puremaths.lk:1935/vod/smil:1605866690245video.smil/playlist.m3u8';
-  // link = 'http://puremaths.lk:1935/vod/smil:1605879914668video.smil/playlist.m3u8';
-  // link2 = 'http://puremaths.lk:1935/vod/mp4:1605866690245video.mp4/playlist.m3u8';
-
-  constructor(private service: VideoPlayerService) {
+  constructor(private service: VideoPlayerService, private dom: DomSanitizer, private http: HttpClient) {
     console.log('new update');
   }
+
   onReplay(ev) {
     console.log(ev);
   }
@@ -48,5 +60,19 @@ export class AppComponent {
 
   reloadPlyr() {
     this.service.resetPlyr();
+  }
+
+  reloadJWP() {
+    this.service.resetJWP();
+  }
+
+  onChange(ev: any) {
+    console.log(ev);
+    // @ts-ignore
+    document.getElementById('frame').src = ev.target.value;
+  }
+
+  ngOnInit(): void {
+    const plyr = new Plyr(document.getElementById('player'));
   }
 }

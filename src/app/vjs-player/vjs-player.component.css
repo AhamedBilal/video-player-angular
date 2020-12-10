@@ -1,4 +1,5 @@
 @import "~video.js/dist/video-js.css";
+@import "~videojs-watermark/dist/videojs-watermark.css";
 ::-webkit-scrollbar {
   width: 5px;
 }

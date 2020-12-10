@@ -24,6 +24,7 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
   @Output() played = new EventEmitter();
   @Output() errorOccurred = new EventEmitter();
   private subscription: Subscription;
+  interval: any;
 
   constructor(private elementRef: ElementRef, private service: VideoPlayerService) {
     this.subscription = service.vjsResetEvent().subscribe(() => {
@@ -76,9 +77,23 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
         this.played.emit(this.player.currentTime());
       }
     });
+    this.genrateWaterMark();
     this.player.on('error', (ev) => {
       this.errorOccurred.emit(ev);
     });
+  }
+
+  genrateWaterMark() {
+    const watermark = document.querySelector('.vjs-text-track-display');
+    console.log('works');
+    const html = document.createElement('div');
+    html.setAttribute('class', 'unselectable');
+    html.setAttribute('style', 'position: absolute;top: 0px;left: 5px;font-size:12px;color: #fff;z-index:1');
+    html.appendChild(document.createTextNode('PureClass Watermark'));
+    watermark.after(html);
+    this.interval = setInterval(() => {
+      Object.assign(html.style, {top: `${Math.random() * 80}%`, left: `${Math.random() * 80}%`});
+    }, 3000);
   }
 
   ngOnDestroy(): void {
@@ -86,6 +101,7 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
       this.player.dispose();
     }
     this.subscription.unsubscribe();
+    clearInterval(this.interval);
   }
 
 }

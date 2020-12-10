@@ -21,6 +21,10 @@ export class VideoPlyrComponent implements OnInit, OnDestroy {
   player;
   errors: string = null;
   private subscription: Subscription;
+  interval: any;
+  @Input() wait = 0;
+  @Input() delay = 5;
+  @Input() watermark;
 
   constructor(private elementRef: ElementRef, private service: VideoPlayerService) {
     this.subscription = service.plyrResetEvent().subscribe(value => {
@@ -47,6 +51,7 @@ export class VideoPlyrComponent implements OnInit, OnDestroy {
           };
           this.player = new Plyr(video, defaultOptions);
           this.onResize();
+          this.genrateWaterMark();
           this.player.on('timeupdate', () => {
             if (this.player.currentTime > 5 * 60 && this.isFirst && this.player.playing) {
               console.log(this.player.playing, this.player.currentTime);
@@ -98,11 +103,43 @@ export class VideoPlyrComponent implements OnInit, OnDestroy {
         }
       });
     }
+
   }
 
   ngOnDestroy(): void {
     this.player.destroy();
     this.subscription.unsubscribe();
+    clearInterval(this.interval);
+  }
+
+  genrateWaterMark() {
+    if (this.watermark) {
+      const watermark = document.querySelector('.plyr__controls');
+      const html = document.createElement('div');
+      html.setAttribute('class', 'unselectable');
+      html.setAttribute('style', 'position: absolute;top: 0px;left: 5px;font-size:12px;color: #fff;z-index:10');
+      html.innerHTML = this.watermark;
+      watermark.after(html);
+      const repeat = async (time) => {
+        Object.assign(html.style, {top: `${Math.random() * 80}%`, left: `${Math.random() * 80}%`});
+        if (this.wait > 0) {
+          await this.resolveAfterSeconds(this.wait);
+          html.style.visibility = 'hidden';
+        }
+        await this.resolveAfterSeconds(this.delay);
+        html.style.visibility = 'visible';
+        requestAnimationFrame(repeat);
+      };
+      requestAnimationFrame(repeat);
+    }
+  }
+
+  resolveAfterSeconds(sec: number): Promise<any> {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, sec * 1000);
+    });
   }
 
   onResize() {

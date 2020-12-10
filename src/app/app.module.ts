@@ -9,6 +9,8 @@ import { VjsPlayerComponent } from './vjs-player/vjs-player.component';
 import { ManualVjsComponent } from './manual-vjs/manual-vjs.component';
 import { HlsHtml5Component } from './hls-html5/hls-html5.component';
 import { VideoPlyrComponent } from './video-plyr/video-plyr.component';
+import { JwplayerComponent } from './jwplayer/jwplayer.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,9 +21,11 @@ import { VideoPlyrComponent } from './video-plyr/video-plyr.component';
     VjsPlayerComponent,
     ManualVjsComponent,
     HlsHtml5Component,
-    VideoPlyrComponent
+    VideoPlyrComponent,
+    JwplayerComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule
   ],
   providers: [],
