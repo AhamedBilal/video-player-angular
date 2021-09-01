@@ -25,6 +25,9 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
   @Output() errorOccurred = new EventEmitter();
   private subscription: Subscription;
   interval: any;
+  @Input() wait = 0;
+  @Input() delay = 5;
+  @Input() watermark;
 
   constructor(private elementRef: ElementRef, private service: VideoPlayerService) {
     this.subscription = service.vjsResetEvent().subscribe(() => {
@@ -51,7 +54,7 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
         this.player.src(src);
         this.player.play();
         this.isFirst = true;
-        if (time > 5 * 60) {
+        if (this.player.currentTime() > this.player.duration() * 0.8) {
           this.replayed.emit(time);
         }
       },
@@ -72,7 +75,7 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
     });
     this.player.getChild('controlBar').addChild('ReplayButton', {}, 1);
     this.player.on('timeupdate', () => {
-      if (this.player.currentTime() > 5 * 60 && this.isFirst) {
+      if (this.player.currentTime() > this.player.duration() * 0.8 && this.isFirst) {
         this.isFirst = false;
         this.played.emit(this.player.currentTime());
       }
@@ -84,16 +87,33 @@ export class VjsPlayerComponent implements OnInit, OnDestroy {
   }
 
   genrateWaterMark() {
-    const watermark = document.querySelector('.vjs-text-track-display');
-    console.log('works');
-    const html = document.createElement('div');
-    html.setAttribute('class', 'unselectable');
-    html.setAttribute('style', 'position: absolute;top: 0px;left: 5px;font-size:12px;color: #fff;z-index:1');
-    html.appendChild(document.createTextNode('PureClass Watermark'));
-    watermark.after(html);
-    this.interval = setInterval(() => {
-      Object.assign(html.style, {top: `${Math.random() * 80}%`, left: `${Math.random() * 80}%`});
-    }, 3000);
+    if (this.watermark) {
+      const watermark = document.querySelector('.vjs-text-track-display');
+      const html = document.createElement('div');
+      html.setAttribute('class', 'unselectable');
+      html.setAttribute('style', 'position: absolute;top: 0px;left: 5px;font-size:12px;color: #fff;z-index:10');
+      html.innerHTML = this.watermark;
+      watermark.after(html);
+      const repeat = async (time) => {
+        Object.assign(html.style, {top: `${Math.random() * 80}%`, left: `${Math.random() * 80}%`});
+        if (this.wait > 0) {
+          await this.resolveAfterSeconds(this.wait);
+          html.style.visibility = 'hidden';
+        }
+        await this.resolveAfterSeconds(this.delay);
+        html.style.visibility = 'visible';
+        requestAnimationFrame(repeat);
+      };
+      requestAnimationFrame(repeat);
+    }
+  }
+
+  resolveAfterSeconds(sec: number): Promise<any> {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, sec * 1000);
+    });
   }
 
   ngOnDestroy(): void {

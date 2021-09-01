@@ -18,13 +18,13 @@
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="p1" role="tabpanel" aria-labelledby="p1-tab">
-        <app-video-plyr *ngIf="player==1" [link]="linkSG"></app-video-plyr>
+        <app-video-plyr *ngIf="player==1" [link]="linkSG" watermark="hello"></app-video-plyr>
       </div>
       <div class="tab-pane fade" id="p2" role="tabpanel" aria-labelledby="p2-tab">
-        <app-vjs-player *ngIf="player==2" [options]="optionsSG"></app-vjs-player>
+        <app-vjs-player *ngIf="player==2" [options]="optionsSG" watermark="hello1"></app-vjs-player>
       </div>
       <div class="tab-pane fade" id="p3" role="tabpanel" aria-labelledby="p3-tab">
-        <app-jwplayer *ngIf="player==3" [link]="linkSG"></app-jwplayer>
+        <app-jwplayer *ngIf="player==3" [link]="linkSG" watermark="hello2"></app-jwplayer>
       </div>
     </div>
   </div>

@@ -53,7 +53,7 @@ export class VideoPlyrComponent implements OnInit, OnDestroy {
           this.onResize();
           this.genrateWaterMark();
           this.player.on('timeupdate', () => {
-            if (this.player.currentTime > 5 * 60 && this.isFirst && this.player.playing) {
+            if (this.player.currentTime > this.player.duration * 0.8 && this.isFirst && this.player.playing) {
               console.log(this.player.playing, this.player.currentTime);
               this.played.emit(this.player.currentTime);
               this.isFirst = false;

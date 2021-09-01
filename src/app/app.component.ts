@@ -36,9 +36,9 @@ export class AppComponent implements OnInit {
     sources: [{src: 'http://puremaths.lk:1935/vod/smil:1606441724762video.smil/playlist.m3u8', type: 'application/vnd.apple.mpegurl\''}]
   };
   play = true;
-  linkSG = 'http://54.151.226.134:1935/vod/smil:1606441724762video.smil/playlist.m3u8';
+  linkSG = 'https://multiplatform-f.akamaihd.net/i/multi/april11/sintel/sintel-hd_,512x288_450_b,640x360_700_b,768x432_1000_b,1024x576_1400_m,.mp4.csmil/master.m3u8';
   isSG = true;
-  linkUS = 'http://puremaths.lk:1935/vod/smil:1606441724762video.smil/playlist.m3u8';
+  linkUS = 'https://multiplatform-f.akamaihd.net/i/multi/april11/sintel/sintel-hd_,512x288_450_b,640x360_700_b,768x432_1000_b,1024x576_1400_m,.mp4.csmil/master.m3u8';
   player = 1;
   playerr = 1;
 
